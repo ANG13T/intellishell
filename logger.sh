@@ -7,6 +7,7 @@
  */
 
 LOG_DIR=""
+OPEN_AI_TOKEN = ""
 
 # Generate a timestamp for the log filename
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
