@@ -1,15 +1,20 @@
 require 'httparty'
 require 'json'
 
-OPENAI_API_KEY = 'your_openai_api_key_here'
-
 OPENAI_API_ENDPOINT = 'https://api.openai.com/v1/engines/davinci-codex/completions'
+
+# Loads API Key from YAML config file
+def load_api_key()
+    config = YAML.load_file('config.yaml')
+    config['openai_api_key']
+end
 
 # Function to interact with ChatGPT
 def ask_chatgpt(prompt)
+  api_key = load_api_key()
   headers = {
     'Content-Type' => 'application/json',
-    'Authorization' => "Bearer #{OPENAI_API_KEY}"
+    'Authorization' => "Bearer #{api_key}"
   }
 
   body = {

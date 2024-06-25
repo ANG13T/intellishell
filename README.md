@@ -7,3 +7,6 @@
 - [] Make a global table log of all the sessions: name, timestamp, and one line summary of the session
 - [] Configure flag for visual display of table logs 
 - [] Easily find a session via search and AI calibration
+
+### TODO
+- [] generate a Gemfile
