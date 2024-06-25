@@ -7,7 +7,6 @@
  */
 
 LOG_DIR=""
-OPEN_AI_TOKEN = ""
 
 # Generate a timestamp for the log filename
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
@@ -22,7 +21,7 @@ LOG_FILE="$LOG_DIR/$TIMESTAMP.txt"
 # - User
 # - AI Analyis
 
-# Start logging session to the specified file
+#Start logging session to the specified file
 script "$LOG_FILE"
 
 # Add any additional commands you want to execute upon starting iTerm
