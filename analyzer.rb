@@ -22,8 +22,8 @@ def ask_chatgpt(prompt)
   body = {
     model: 'gpt-3.5-turbo',
     messages: [
-             { role: 'system', content: 'You are a helpful assistant.' },
-             { role: 'user', content: prompt }
+             { role: 'system', content: 'You are a programmer and UNIX system and terminal master. You understand every command emmaculately and can articulate what terminal commands do a high and concise level. Do not use any redundancy in how you speak. Be clear and straight to the point. You have a keen perception for ANSI escape codes' },
+             { role: 'user', content: "Interpret this terminal session and describe what the user is doing in a few sentences and one summarizing sentence. For the description sentence, use '-' to indicate each sentence. For the one summary sentence, use '*' to indicate the sentence. Terminal session: #{prompt}"}
            ],
     max_tokens: 150
   }.to_json
