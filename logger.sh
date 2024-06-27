@@ -3,7 +3,6 @@
  * TERMINAL HISTORY LOGGER / ANALYZER
  * This script logs all terminal commands and outputs to a specified directory.
  * Saves each history session in a text file with a timestamp.
- *
  */
 
 LOG_DIR=""
