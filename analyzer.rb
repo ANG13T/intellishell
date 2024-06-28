@@ -6,7 +6,7 @@ OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
 # Check if the correct number of arguments is provided
 if ARGV.length != 1
-  puts "Usage: ruby read_file.rb <file_path>"
+  puts "Usage: ruby analyzer.rb <file_path>"
   exit 1
 end
 
@@ -54,23 +54,31 @@ def ask_chatgpt(prompt)
   end
 end
 
+def read_file(file_path)
+  contents = ""
+  # Open the file for reading
+  File.open(file_path, "r") do |file|
+    # Print each line of the file
+    file.each_line do |line|
+      contents += line
+    end
+  end
+  contents
+end
+
 # Main loop to analyze terminal code
 def analyze_terminal_code
-  puts "Welcome to Terminal Code Analyzer!"
-
   log_file = ARGV[0]
 
-  puts log_file
+  terminal_contents = read_file(log_file)
 
   begin
     # Send input to ChatGPT
-    response = ask_chatgpt(input)
+    response = ask_chatgpt(terminal_contents)
     puts "ChatGPT says: #{response}"
   rescue => e
     puts "Error: #{e.message}"
   end
-
-  puts "Exiting Terminal Code Analyzer. Goodbye!"
 end
 
 analyze_terminal_code if __FILE__ == $0
