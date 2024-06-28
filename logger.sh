@@ -5,6 +5,7 @@
 # Saves each history session in a text file with a timestamp.
 
 LOG_DIR="/Users/angelinatsuboi/Desktop/AT-Files/Cybersecurity/Research/Terminal_Logs"
+SESSION_CATALOG="/Users/angelinatsuboi/Desktop/AT-Files/Cybersecurity/Research/Terminal_Logs/sessions.csv"
 
 mkdir -p "$LOG_DIR"
 
@@ -29,4 +30,4 @@ exit
 
 touch "$LOG_DIR/summary.txt"
 
-ruby analyze.rb "$LOG_DIR/summary.txt"
+ruby analyze.rb "$LOG_DIR/summary.txt" "SESSION_CATALOG"

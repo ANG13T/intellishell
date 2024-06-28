@@ -5,8 +5,8 @@ require 'yaml'
 OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
 # Check if the correct number of arguments is provided
-if ARGV.length != 1
-  puts "Usage: ruby analyzer.rb <file_path>"
+if ARGV.length != 2
+  puts "Usage: ruby analyzer.rb <log_directory> <session_path>"
   exit 1
 end
 
@@ -29,7 +29,7 @@ def ask_chatgpt(prompt)
     model: 'gpt-3.5-turbo',
     messages: [
              { role: 'system', content: 'You are a programmer and UNIX system and terminal master. You understand every command emmaculately and can articulate what terminal commands do a high and concise level. Do not use any redundancy in how you speak. Be clear and straight to the point. You have a keen perception for ANSI escape codes' },
-             { role: 'user', content: "Interpret this terminal session and describe what the user is doing in a few sentences and one summarizing sentence. For the description sentence, use '-' to indicate each sentence. For the one summary sentence, use '*' to indicate the sentence. Terminal session: #{prompt}"}
+             { role: 'user', content: "Interpret this terminal session and describe what the user is doing in a few sentences and one summarizing sentence. For the one short summary sentence, surround it in parenthesis. Terminal session: #{prompt}"}
            ],
     max_tokens: 150
   }.to_json
@@ -66,7 +66,6 @@ def read_file(file_path)
   contents
 end
 
-# Main loop to analyze terminal code
 def analyze_terminal_code
   log_file = ARGV[0]
 
@@ -79,6 +78,12 @@ def analyze_terminal_code
   rescue => e
     puts "Error: #{e.message}"
   end
+end
+
+# Saves the session to a CSV file
+# Timestamp Start, Amount of Time in Session,  Path, Summary, Description
+def save_to_catalog
+  catalog_file = ARGV[1]
 end
 
 analyze_terminal_code if __FILE__ == $0
