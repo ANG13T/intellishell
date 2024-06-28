@@ -29,4 +29,4 @@ exit
 
 touch "$LOG_DIR/summary.txt"
 
-ruby analyze.rb "$LOG_FILE" "$LOG_DIR/summary.txt"
+ruby analyze.rb "$LOG_DIR/summary.txt"

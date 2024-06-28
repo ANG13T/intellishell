@@ -4,6 +4,12 @@ require 'yaml'
 
 OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
+# Check if the correct number of arguments is provided
+if ARGV.length != 1
+  puts "Usage: ruby read_file.rb <file_path>"
+  exit 1
+end
+
 # Loads API Key from YAML config file
 def load_api_key
   config = YAML.load_file('config.yaml')
@@ -51,21 +57,17 @@ end
 # Main loop to analyze terminal code
 def analyze_terminal_code
   puts "Welcome to Terminal Code Analyzer!"
-  puts "Enter your terminal code (type 'exit' to quit):"
 
-  loop do
-    print "> "
-    input = gets.chomp
+  log_file = ARGV[0]
 
-    break if input.downcase == 'exit'
+  puts log_file
 
-    begin
-      # Send input to ChatGPT
-      response = ask_chatgpt(input)
-      puts "ChatGPT says: #{response}"
-    rescue => e
-      puts "Error: #{e.message}"
-    end
+  begin
+    # Send input to ChatGPT
+    response = ask_chatgpt(input)
+    puts "ChatGPT says: #{response}"
+  rescue => e
+    puts "Error: #{e.message}"
   end
 
   puts "Exiting Terminal Code Analyzer. Goodbye!"
