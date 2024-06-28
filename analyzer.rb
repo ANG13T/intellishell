@@ -6,7 +6,7 @@ OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
 # Check if the correct number of arguments is provided
 if ARGV.length != 2
-  puts "Usage: ruby analyzer.rb <log_directory> <session_path>"
+  puts "Usage: ruby analyzer.rb <log_file> <summary_path> <session_catalog> <complete_timestamp>"
   exit 1
 end
 
@@ -78,12 +78,20 @@ def analyze_terminal_code
   rescue => e
     puts "Error: #{e.message}"
   end
+
+  save_to_catalog
+
 end
 
 # Saves the session to a CSV file
-# Timestamp Start, Amount of Time in Session,  Path, Summary, Description
+# Timestamp Start, Amount of Time in Session, Path, Summary, Description
 def save_to_catalog
-  catalog_file = ARGV[1]
+  summary_path = ARGV[1]
+  session_catalog = ARGV[2]
+  complete_timestamp = ARGV[3]
+
+  puts summary_path, session_catalog, complete_timestamp
+
 end
 
 analyze_terminal_code if __FILE__ == $0

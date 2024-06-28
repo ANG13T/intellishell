@@ -11,13 +11,17 @@ mkdir -p "$LOG_DIR"
 
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 
-# Create the log directory if it does not exist
-SESSION_DIR = "$LOG_DIR/$TIMESTAMP"
+SESSION_DIR="$LOG_DIR/$TIMESTAMP"
 
-mkdir "$SESSION_DIR"
+# Create the log directory if it does not exist
+mkdir -p "$SESSION_DIR"
 
 # Define the log file path with the timestamp
-LOG_FILE="$LOG_DIR/session.txt"
+LOG_FILE="$SESSION_DIR/session.txt"
+
+touch "$LOG_FILE"
+
+touch LOG_FILE
 
 # Start logging session to the specified file
 script "$LOG_FILE"
@@ -30,4 +34,8 @@ exit
 
 touch "$LOG_DIR/summary.txt"
 
-ruby analyze.rb "$LOG_DIR/summary.txt" "SESSION_CATALOG"
+TIMESTAMP_FINISH=$(date +"%Y-%m-%d_%H-%M-%S")
+
+COMPLETE_TIMESTAMP="$TIMESTAMP - $TIMESTAMP_FINISH"
+
+ruby analyze.rb "$LOG_FILE" "$SESSION_DIR/summary.txt" "$SESSION_CATALOG" "$COMPLETE_TIMESTAMP"
