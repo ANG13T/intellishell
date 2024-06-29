@@ -22,10 +22,12 @@ mkdir -p "$SESSION_DIR"
 
 touch "$LOG_FILE"
 
+chmod u+w "$LOG_FILE" || { echo "Failed to set write permissions for log file: $LOG_FILE"; exit 1; }
+
 touch "$SUMMARY_FILE"
 
 # Start logging session to the specified file
-script -q "bash" "$LOG_FILE"
+script -q "$LOG_FILE"
 
 exit
 echo "Session logging completed and analyzed at $SESSION_DIR."
