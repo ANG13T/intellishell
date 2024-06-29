@@ -26,6 +26,12 @@ def env_check
     puts "Make sure to configure variables inside config.yaml"
     exit 1
   end
+
+  # check if session catalog exists as a file
+  unless File.exist?(session_catalog)
+    puts "Session catalog file does not exist: #{session_catalog}"
+    exit 1
+  end
 end
 
 def invoke_script()
@@ -37,7 +43,7 @@ def invoke_script()
   timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
   shell_script = './logger.sh'
   system("#{shell_script} #{logging_dir} #{session_path} #{timestamp}")
-  analyze_terminal_code("#{logging_dir}/#{timestamp}/session.txt")
+  analyze_terminal_code("#{logging_dir}/#{timestamp}/session.txt", "#{logging_dir}/#{timestamp}/summary.txt", timestamp)
 end
 
 # Function to interact with ChatGPT
@@ -53,7 +59,7 @@ def ask_chatgpt(prompt)
     model: 'gpt-3.5-turbo',
     messages: [
              { role: 'system', content: 'You are a programmer and UNIX system and terminal master. You understand every command emmaculately and can articulate what terminal commands do a high and concise level. Do not use any redundancy in how you speak. Be clear and straight to the point. You have a keen perception for ANSI escape codes' },
-             { role: 'user', content: "Interpret this terminal session and describe what the user is doing in a few sentences and one summarizing sentence. For the one short summary sentence, surround it in parenthesis. Terminal session: #{prompt}"}
+             { role: 'user', content: "Interpret this terminal session and describe what the user is doing in a few sentences and one summarizing sentence. For the one short summary sentence, ALWAYS surround it in parenthesis. Terminal session: #{prompt}"}
            ],
     max_tokens: 150
   }.to_json
@@ -90,7 +96,7 @@ def read_file(file_path)
   contents
 end
 
-def analyze_terminal_code(path)
+def analyze_terminal_code(path, summary_path, timestamp)
 
   terminal_contents = read_file(path)
 
@@ -98,33 +104,40 @@ def analyze_terminal_code(path)
     # Send input to ChatGPT
     response = ask_chatgpt(terminal_contents)
     puts "ChatGPT says: #{response}"
-    save_to_catalog(response)
+    parsed_output = parse_response(response)
+    save_summary(summary_path, parsed_output)
+    save_to_catalog(response, timestamp)
   rescue => e
     puts "Error: #{e.message}"
   end
 
 end
 
+def parse_response(response)
+  summary_match = response.match(/^(.*)\(/)
+  title_match = response.match(/\((.*)\)$/)
+
+  puts "summary is #{summary_match}"
+
+  summary = summary_match[1].strip if summary_match
+  title = "(#{title_match[1].strip})" if title_match
+
+  {
+    summary: summary,
+    title: title
+  }
+end
+
+def save_summary(summary_path, contents)
+
+  # Save the summary to a file
+  File.open(summary_path, 'w') { |file| file.write("TITLE: #{contents[:title]} \n SUMMARY: #{contents[:summary]}") }
+end
+
 # Saves the session to a CSV file
-# Timestamp Start, Amount of Time in Session, Path, Summary, Description
-def save_to_catalog(input)
-  summary_path = ARGV[1]
-  session_catalog = ARGV[2]
-  complete_timestamp = ARGV[3]
+# Timestamp, Path, Summary, Description
+def save_to_catalog(input, timestamp)
 
-  # parse the timestamp
-  timestamp_start = complete_timestamp.split(" - ")[0]
-  timestamp_end = complete_timestamp.split(" - ")[1]
-
-  # calculate the amount of time in the session
-  # convert the timestamps to seconds
-  start_time = Time.parse(timestamp_start)
-  end_time = Time.parse(timestamp_end)
-  # subtract the start time from the end time
-  time_in_session = end_time - start_time
-  puts time
-
-  puts summary_path, session_catalog, complete_timestamp
 
 end
 

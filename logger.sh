@@ -13,6 +13,8 @@ SESSION_DIR="$LOG_DIR/$TIMESTAMP"
 LOG_FILE="$SESSION_DIR/session.txt"
 SUMMARY_FILE="$SESSION_DIR/summary.txt"
 
+# Create a sessions file if it does not exist (conditional checking and creation)
+
 mkdir -p "$LOG_DIR"
 
 # Create the log directory if it does not exist
