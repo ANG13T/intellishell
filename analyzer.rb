@@ -4,23 +4,40 @@ require 'yaml'
 
 OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
-# Check if the correct number of arguments is provided
-if ARGV.length != 2
-  puts "Usage: ruby analyzer.rb"
-  exit 1
-end
-
-def invoke_script()
-  # create the timestamp to feed into the script
-  timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
-  shell_script = './logger.sh'
-  system("#{shell_script} #{timestamp}")
-end
-
 # Loads API Key from YAML config file
 def load_api_key
   config = YAML.load_file('config.yaml')
   config['openai_api_key']
+end
+
+def load_config
+  config = YAML.load_file('config.yaml')
+  config
+end
+
+def env_check
+  # TODO: config to ask user for the input
+  config = load_config
+  log_dir = config['log_dir']
+  session_catalog = config['session_catalog']
+  openai_api_key = config['openai_api_key']
+
+  if log_dir.nil? || session_catalog.nil? || openai_api_key.nil?
+    puts "Make sure to configure variables inside config.yaml"
+    exit 1
+  end
+end
+
+def invoke_script()
+  config = load_config
+  logging_dir = config['log_dir']
+  session_path = config['session_catalog']
+
+  # create the timestamp to feed into the script
+  timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
+  shell_script = './logger.sh'
+  system("#{shell_script} #{logging_dir} #{session_path} #{timestamp}")
+  puts "done logging"
 end
 
 # Function to interact with ChatGPT
@@ -112,4 +129,5 @@ def save_to_catalog(input)
 
 end
 
-analyze_terminal_code if __FILE__ == $0
+env_check
+invoke_script
