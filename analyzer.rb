@@ -37,7 +37,7 @@ def invoke_script()
   timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
   shell_script = './logger.sh'
   system("#{shell_script} #{logging_dir} #{session_path} #{timestamp}")
-  puts "done logging"
+  analyze_terminal_code("#{logging_dir}/#{timestamp}/session.txt")
 end
 
 # Function to interact with ChatGPT
@@ -90,10 +90,9 @@ def read_file(file_path)
   contents
 end
 
-def analyze_terminal_code
-  log_file = ARGV[0]
+def analyze_terminal_code(path)
 
-  terminal_contents = read_file(log_file)
+  terminal_contents = read_file(path)
 
   begin
     # Send input to ChatGPT
@@ -130,4 +129,6 @@ def save_to_catalog(input)
 end
 
 env_check
+
+# TODO: some kind of checking to make sure it works
 invoke_script

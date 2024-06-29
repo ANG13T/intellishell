@@ -3,7 +3,6 @@
 # TERMINAL HISTORY LOGGER / ANALYZER
 # This script logs all terminal commands and outputs to a specified directory.
 # Saves each history session in a text file with a timestamp.
-
 # INPUT: LOGGING DIRECTORY, TIMESTAMP, and SESSION CATALOG
 
 LOG_DIR=$1
@@ -13,7 +12,6 @@ TIMESTAMP=$3
 SESSION_DIR="$LOG_DIR/$TIMESTAMP"
 LOG_FILE="$SESSION_DIR/session.txt"
 SUMMARY_FILE="$SESSION_DIR/summary.txt"
-
 
 mkdir -p "$LOG_DIR"
 
