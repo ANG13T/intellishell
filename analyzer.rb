@@ -6,8 +6,15 @@ OPENAI_API_ENDPOINT = URI('https://api.openai.com/v1/chat/completions')
 
 # Check if the correct number of arguments is provided
 if ARGV.length != 2
-  puts "Usage: ruby analyzer.rb <log_file> <summary_path> <session_catalog> <complete_timestamp>"
+  puts "Usage: ruby analyzer.rb"
   exit 1
+end
+
+def invoke_script()
+  # create the timestamp to feed into the script
+  timestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
+  shell_script = './logger.sh'
+  system("#{shell_script} #{timestamp}")
 end
 
 # Loads API Key from YAML config file
@@ -75,20 +82,31 @@ def analyze_terminal_code
     # Send input to ChatGPT
     response = ask_chatgpt(terminal_contents)
     puts "ChatGPT says: #{response}"
+    save_to_catalog(response)
   rescue => e
     puts "Error: #{e.message}"
   end
-
-  save_to_catalog
 
 end
 
 # Saves the session to a CSV file
 # Timestamp Start, Amount of Time in Session, Path, Summary, Description
-def save_to_catalog
+def save_to_catalog(input)
   summary_path = ARGV[1]
   session_catalog = ARGV[2]
   complete_timestamp = ARGV[3]
+
+  # parse the timestamp
+  timestamp_start = complete_timestamp.split(" - ")[0]
+  timestamp_end = complete_timestamp.split(" - ")[1]
+
+  # calculate the amount of time in the session
+  # convert the timestamps to seconds
+  start_time = Time.parse(timestamp_start)
+  end_time = Time.parse(timestamp_end)
+  # subtract the start time from the end time
+  time_in_session = end_time - start_time
+  puts time
 
   puts summary_path, session_catalog, complete_timestamp
 

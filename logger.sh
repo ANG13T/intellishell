@@ -4,38 +4,28 @@
 # This script logs all terminal commands and outputs to a specified directory.
 # Saves each history session in a text file with a timestamp.
 
-LOG_DIR="/Users/angelinatsuboi/Desktop/AT-Files/Cybersecurity/Research/Terminal_Logs"
-SESSION_CATALOG="/Users/angelinatsuboi/Desktop/AT-Files/Cybersecurity/Research/Terminal_Logs/sessions.csv"
+# INPUT: LOGGING DIRECTORY, TIMESTAMP, and SESSION CATALOG
 
-mkdir -p "$LOG_DIR"
-
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+LOG_DIR=$1
+SESSION_CATALOG=$2
+TIMESTAMP=$3
 
 SESSION_DIR="$LOG_DIR/$TIMESTAMP"
+LOG_FILE="$SESSION_DIR/session.txt"
+SUMMARY_FILE="$SESSION_DIR/summary.txt"
+
+
+mkdir -p "$LOG_DIR"
 
 # Create the log directory if it does not exist
 mkdir -p "$SESSION_DIR"
 
-# Define the log file path with the timestamp
-LOG_FILE="$SESSION_DIR/session.txt"
-
 touch "$LOG_FILE"
 
-touch LOG_FILE
+touch "$SUMMARY_FILE"
 
 # Start logging session to the specified file
-script "$LOG_FILE"
+script -q "bash" "$LOG_FILE"
 
-# Open the cleaned log file in iTerm (replace with your actual iTerm launch command, if needed)
-open -a iTerm "$LOG_FILE"
-
-# When iTerm exits, stop logging
 exit
-
-touch "$LOG_DIR/summary.txt"
-
-TIMESTAMP_FINISH=$(date +"%Y-%m-%d_%H-%M-%S")
-
-COMPLETE_TIMESTAMP="$TIMESTAMP - $TIMESTAMP_FINISH"
-
-ruby analyze.rb "$LOG_FILE" "$SESSION_DIR/summary.txt" "$SESSION_CATALOG" "$COMPLETE_TIMESTAMP"
+echo "Session logging completed and analyzed at $SESSION_DIR."
