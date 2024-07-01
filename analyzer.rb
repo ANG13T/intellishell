@@ -234,7 +234,14 @@ def delete_log(timestamp)
   end
 end
 
+def banner
+  puts "IntelliShell [v.1r0] - AI Terminal Session Analyzer"
+  puts "URL: https://github.com/ANG13T/IntelliShell"
+  puts "---------------- By G4LXY -------------------"
+end
+
 def main
+  banner
   loop do
     display_menu
     choice = choose_option
