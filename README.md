@@ -1,13 +1,13 @@
 # IntelliShell
 AI-powered terminal session logger and analyzer
 
-## Preview
-
 ## Features
 - [x] Record terminal sessions
 - [x] Analyze terminal sessions using GPT
 - [x] Save terminal sessions to CSV
 - [x] Search terminal sessions
+
+## Preview
 
 ## Installation
 
