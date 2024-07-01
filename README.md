@@ -6,8 +6,7 @@ AI-powered terminal session logger and analyzer
 - [x] Analyze terminal sessions using GPT
 - [x] Save terminal sessions to CSV
 - [x] Search terminal sessions
-
-## Preview
+- [x] View recorded terminal sessions
 
 ## Installation
 
@@ -28,6 +27,12 @@ prompt: "You are a programmer and UNIX system and terminal master. You understan
 ```
 
 You can generate an OpenAI API key by visiting the [OpenAI API](https://platform.openai.com/) page.
+
+`log_dir` is the directory where the terminal sessions will be saved.
+
+For `session_catalog`, you MUST generate a session_catalog.csv file. This file will be used to store the terminal sessions.
+
+You can change the `prompt` variable to any prompt you want to use for the GPT model to analyze the session.
 
 #### 3. Make the Script Executable:
 ```
