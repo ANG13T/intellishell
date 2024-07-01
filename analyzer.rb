@@ -16,6 +16,10 @@ def load_config
   config
 end
 
+def save_config(config)
+  File.open('config.yaml', 'w') { |file| YAML.dump(config, file) }
+end
+
 def env_check
   # TODO: config to ask user for the input
   config = load_config
@@ -24,14 +28,35 @@ def env_check
   openai_api_key = config['openai_api_key']
   prompt = config['prompt']
 
-  if log_dir.nil? || session_catalog.nil? || openai_api_key.nil? || prompt.nil?
-    puts "Make sure to configure variables inside config.yaml"
-    exit 1
+  if log_dir.nil?
+    print "Enter the log directory: "
+    log_dir = gets.chomp
+    config['log_dir'] = log_dir
   end
+
+  if session_catalog.nil?
+    print "Enter the session catalog path: "
+    session_catalog = gets.chomp
+    config['session_catalog'] = session_catalog
+  end
+
+  if openai_api_key.nil?
+    print "Enter the OpenAI API key: "
+    openai_api_key = gets.chomp
+    config['openai_api_key'] = openai_api_key
+  end
+
+  if prompt.nil?
+    print "Enter the prompt: "
+    prompt = gets.chomp
+    config['prompt'] = prompt
+  end
+
+  save_config(config)
 
   # check if session catalog exists as a file
   unless File.exist?(session_catalog)
-    puts "Session catalog file does not exist: #{session_catalog}"
+    puts "Session catalog CSV file does not exist: #{session_catalog}"
     exit 1
   end
 end
