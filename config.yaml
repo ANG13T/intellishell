@@ -1,1 +1,4 @@
-openai_api_key: sk-proj-Hjco96YKzoZoNB7hYN5CT3BlbkFJmj8YRIkw93IoHGRy4ncv
+openai_api_key:
+log_dir:
+session_catalog:
+prompt:
