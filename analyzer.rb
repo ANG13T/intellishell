@@ -21,26 +21,25 @@ def save_config(config)
 end
 
 def env_check
-  # TODO: config to ask user for the input
   config = load_config
   log_dir = config['log_dir']
   session_catalog = config['session_catalog']
   openai_api_key = config['openai_api_key']
   prompt = config['prompt']
 
-  if log_dir.nil?
+  if log_dir == "path/to/log/directory" || log_dir.nil?
     print "Enter the log directory: "
     log_dir = gets.chomp
     config['log_dir'] = log_dir
   end
 
-  if session_catalog.nil?
+  if session_catalog == "path/to/session_catalog.csv" || session_catalog.nil?
     print "Enter the session catalog path: "
     session_catalog = gets.chomp
     config['session_catalog'] = session_catalog
   end
 
-  if openai_api_key.nil?
+  if openai_api_key == "your_openai_api_key" || openai_api_key.nil?
     print "Enter the OpenAI API key: "
     openai_api_key = gets.chomp
     config['openai_api_key'] = openai_api_key
@@ -75,6 +74,8 @@ end
 
 # Function to interact with ChatGPT
 def ask_chatgpt(question, terminal_input)
+  config = load_config
+  prompt = config['prompt']
   api_key = load_api_key
 
   headers = {
@@ -85,7 +86,7 @@ def ask_chatgpt(question, terminal_input)
   body = {
     model: 'gpt-3.5-turbo',
     messages: [
-             { role: 'system', content: 'You are a programmer and UNIX system and terminal master. You understand every command emmaculately and can articulate what terminal commands do a high and concise level. Do not use any redundancy in how you speak. Be clear and straight to the point. You have a keen perception for ANSI escape codes' },
+             { role: 'system', content: prompt },
              { role: 'user', content: "#{question} Terminal session: #{terminal_input}"}
            ],
     max_tokens: 150
@@ -166,6 +167,4 @@ def save_to_catalog(timestamp, title, summary, path)
 end
 
 env_check
-
-# TODO: some kind of checking to make sure it works
 invoke_script
