@@ -22,8 +22,9 @@ def env_check
   log_dir = config['log_dir']
   session_catalog = config['session_catalog']
   openai_api_key = config['openai_api_key']
+  prompt = config['prompt']
 
-  if log_dir.nil? || session_catalog.nil? || openai_api_key.nil?
+  if log_dir.nil? || session_catalog.nil? || openai_api_key.nil? || prompt.nil?
     puts "Make sure to configure variables inside config.yaml"
     exit 1
   end
@@ -105,10 +106,9 @@ def analyze_terminal_code(path, summary_path, timestamp)
     # Send input to ChatGPT
     response_summary = ask_chatgpt("Interpret this terminal session and describe what the user is doing in a few sentences", terminal_contents)
     response_title = ask_chatgpt("Interpret this terminal session and describe what the user is doing in one concise summary sentence", terminal_contents)
-    puts "ChatGPT Summary: #{response_summary}"
-    puts "ChatGPT Title: #{response_title}"
     save_summary(summary_path, response_title, response_summary, timestamp)
     save_to_catalog(timestamp, response_title, response_summary, path)
+    puts "Terminal Session Saved: #{path}"
   rescue => e
     puts "Error: #{e.message}"
   end
@@ -117,7 +117,7 @@ end
 
 def save_summary(summary_path, title, summary, timestamp)
   # Save the summary to a file
-  File.open(summary_path, 'w') { |file| file.write("TITLE: #{title} \nTIMESTAMP: #{timestamp}\nSUMMARY: #{summary}") }
+  File.open(summary_path, 'w') { |file| file.write("TITLE: #{title} \n\nTIMESTAMP: #{timestamp}\n\nSUMMARY: #{summary}") }
 end
 
 # Saves the session to a CSV file
@@ -126,8 +126,16 @@ def save_to_catalog(timestamp, title, summary, path)
   # write the the sessions.csv file and log the terminal entry
   session_entry = [timestamp, path, title, summary]
   session_catalog = load_config['session_catalog']
+  headers = ['Timestamp', 'Path', 'Title', 'Summary']
+
+  file_empty = File.zero?(session_catalog)
 
   CSV.open(session_catalog, 'a+') do |csv|
+    # Write headers if the file does not exist or is empty
+    if file_empty
+      csv << headers
+    end
+
     csv << session_entry
   end
 end
