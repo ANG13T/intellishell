@@ -1,4 +1,4 @@
-# IntelliShell
+# intellishell
 AI-powered terminal session logger and analyzer
 
 ## Features
@@ -13,8 +13,8 @@ AI-powered terminal session logger and analyzer
 #### 1. Clone the Repository
 Clone the directory to your local machine:
 ```
-git clone https://github.com/ANG13T/IntelliShell
-cd IntelliShell
+git clone https://github.com/ANG13T/intellishell
+cd intellishell
 ```
 
 #### 2. Configuring YAML Variables
@@ -42,7 +42,7 @@ chmod +x intellishell
 #### 4. Configure the Path
 Add the following to your `.bashrc` or `.zshrc` path file:
 ```sh
-export PATH=$PATH:/path/to/IntelliShell
+export PATH=$PATH:/path/to/intellishell
 ```
 
 ## Usage
