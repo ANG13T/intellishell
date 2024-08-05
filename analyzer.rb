@@ -45,6 +45,7 @@ def env_check
   session_catalog = config['session_catalog']
   openai_api_key = config['openai_api_key']
   prompt = config['prompt']
+  model = config['model']
 
   if log_dir == "path/to/log/directory" || log_dir.nil?
     print "Enter the log directory: "
@@ -62,6 +63,12 @@ def env_check
     print "Enter the OpenAI API key: "
     openai_api_key = gets.chomp
     config['openai_api_key'] = openai_api_key
+  end
+
+  if model == "gpt-3.5-turbo" || model.nil?
+    print "Enter the model: "
+    model = gets.chomp
+    config['model'] = model
   end
 
   if prompt.nil?
@@ -103,7 +110,7 @@ def ask_chatgpt(question, terminal_input)
   }
 
   body = {
-    model: 'gpt-3.5-turbo',
+    model: config['model'],
     messages: [
              { role: 'system', content: prompt },
              { role: 'user', content: "#{question} Terminal session: #{terminal_input}"}

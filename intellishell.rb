@@ -20,10 +20,6 @@ def choose_option
   gets.chomp.to_i
 end
 
-def main
-  show_options
-end
-
 # Loads API Key from YAML config file
 def load_api_key
   config = YAML.load_file('config.yaml')
@@ -237,9 +233,15 @@ def delete_log(timestamp)
 end
 
 def banner
-  puts "IntelliShell [v.1r0] - AI Terminal Session Analyzer"
+  puts "\nIntelliShell [v.1r0] - AI Terminal Session Analyzer"
   puts "URL: https://github.com/ANG13T/IntelliShell"
-  puts "---------------- By G4LXY -------------------"
+  puts "------------------- By G4LXY ----------------------\n"
+end
+
+def display_menu
+  show_options
+  puts "---------------------------------------------------"
+
 end
 
 def main
