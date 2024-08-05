@@ -1,6 +1,8 @@
 # intellishell
 AI-powered terminal session logger and analyzer
 
+![intellishell preview](https://github.com/ANG13T/intellishell/blob/main/assets/preview.gif)
+
 ## Features
 - [x] Record terminal sessions
 - [x] Analyze terminal sessions using GPT
