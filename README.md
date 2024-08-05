@@ -1,4 +1,4 @@
-# intellishell
+# 📟 intellishell  
 AI-powered terminal session logger and analyzer
 
 ![intellishell preview](https://github.com/ANG13T/intellishell/blob/main/assets/preview.gif)
