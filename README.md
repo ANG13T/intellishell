@@ -54,7 +54,7 @@ intellishell
 ```
 
 ## Contributing
-IntelliShell is open to any contributions. Please fork the repository and make a pull request with the features or fixes you want to implement.
+intellishell is open to any contributions. Please fork the repository and make a pull request with the features or fixes you want to implement.
 
 ## Support
 If you enjoyed IntelliShell, please consider [becoming a sponsor](https://github.com/sponsors/ANG13T) or donating on [buymeacoffee](https://www.buymeacoffee.com/angelinatsuboi) in order to fund my future projects.
